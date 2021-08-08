@@ -1,0 +1,11 @@
+select t4.MovieName,avg(t2.rate) as avg_sc,count(t2.movieid) as cnt
+from    hive_sql_test1.t_rating t2
+left join hive_sql_test1.t_user t3
+on t2.userid = t3.userid
+left join hive_sql_test1.t_movie t4
+on t4.movieid = t2.movieid
+and t3.sex ='M'
+group by t4.MovieName
+having count(*)<50
+order by avg_sc desc
+limit 10
