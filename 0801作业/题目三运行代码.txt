@@ -1,0 +1,19 @@
+select t5.MovieName,avg(t1.rate),row_number()over(order by avg(t1.rate) desc) rownum
+from    hive_sql_test1.t_rating t1
+inner join 
+(
+select t2.userid,count(*) as cnt ,row_number()over( order by count(*) desc) rn
+from    hive_sql_test1.t_rating t2
+left join hive_sql_test1.t_user t3
+on t2.userid = t3.userid
+where t3.sex ='F'
+group by t2.userid
+order by cnt desc
+) t4
+on t1.userid = t4.userid
+and t4.rn = 1
+left join hive_sql_test1.t_movie t5
+on t1.movieid = t5.movieid
+group by t5.MovieName
+order by rownum asc
+limit 10

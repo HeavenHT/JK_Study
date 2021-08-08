@@ -1,0 +1,12 @@
+
+
+
+select t3.age,avg(t2.rate)
+from	hive_sql_test1.t_movie t1 
+left join hive_sql_test1.t_rating t2
+on t1.movieid = t2.movieid
+left join hive_sql_test1.t_user t3
+on t2.userid = t3.userid
+where t1.movieid = 2116
+group by t3.age
+order by t3.age asc
